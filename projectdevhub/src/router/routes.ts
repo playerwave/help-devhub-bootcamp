@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     path: '/first-page',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', name: 'FirstPage', component: () => import('pages/FirstPage.vue') }],
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: '/pos',
@@ -23,13 +23,14 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     component: () => import('layouts/FullScreen.vue'),
     children: [{ path: '', name: 'LoginPage', component: () => import('pages/LoginPage.vue') }],
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: '/user-page',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', name: 'UserPage', component: () => import('pages/UserPage.vue') }],
-    meta: { requiresAuth: true },
+    // meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ['Manager', 'Owner'] }, //ให้แค่ Manager, Owner เท่านั้นที่ใช้ได้
   },
   {
     path: '/route-page/:id/:name',
@@ -60,7 +61,9 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/customer-page',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', name: 'CustomerPage', component: () => import('pages/CustomerPage.vue') }],
+    children: [
+      { path: '', name: 'CustomerPage', component: () => import('pages/CustomerPage.vue') },
+    ],
     meta: { requiresAuth: true },
   },
   {
@@ -73,7 +76,7 @@ const routes: RouteRecordRaw[] = [
     path: '/order-page',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', name: 'OrderPage', component: () => import('pages/OrderPage.vue') }],
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: '/checkinout-page',
@@ -81,13 +84,13 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', name: 'checkinoutPage', component: () => import('pages/CheckInOutPage .vue') },
     ],
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: '/payment-page',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', name: 'paymentPage', component: () => import('pages/PaymentPage.vue') }],
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
 
   // Always leave this as last one,

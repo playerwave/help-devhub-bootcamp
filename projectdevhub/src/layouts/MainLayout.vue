@@ -67,13 +67,21 @@
 
     <!-- Drawer -->
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-coffee-light text-white">
+      <!--แบบเก่า-->
+      <!-- <q-list>
+        <q-item-label header class="text-subtitle2 q-pa-md text-center text-bold drawer-header">
+          Menu
+        </q-item-label>
+        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+      </q-list> -->
+
+      <!--แบบใหม่-->
       <q-list>
         <q-item-label header class="text-subtitle2 q-pa-md text-center text-bold drawer-header">
           Menu
         </q-item-label>
 
-        <!-- Loop through links -->
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <EssentialLink v-for="link in filteredLinksList" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -85,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue'
 import { useAuthStore } from 'src/stores/authStore'
 
@@ -152,6 +160,18 @@ const linksList: EssentialLinkProps[] = [
     link: '/customer-page',
   },
 ]
+
+//function ที่ไม่ให้ user ที่มี role ไม่เป็น Manager, Owner มองเห็น user management
+
+const filteredLinksList = computed(() => {
+  return linksList.filter((link) => {
+    if (link.title === 'User') {
+      const role = authStore.currentUser?.role
+      return role === 'Management' || role === 'Owner'
+    }
+    return true
+  })
+})
 
 const leftDrawerOpen = ref(false)
 
